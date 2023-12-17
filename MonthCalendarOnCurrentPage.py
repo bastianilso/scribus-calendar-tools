@@ -68,6 +68,12 @@ def GetWeekNumber(year,month,week):
     initial_week  = int(datetime.date(year, month, 1).strftime("%V"))
     ending_week   = int(datetime.date(year, month, ending_day).strftime("%V"))
     
+    # Handle December cases, where ending_week might report as "1".
+    # December 28th is always in the last week of the year, so use this as fallback.
+    # https://stackoverflow.com/questions/29262859/the-number-of-calendar-weeks-in-a-year
+    if (ending_week == 1):
+        ending_week = int(datetime.date(year, month, 28).strftime("%V"))
+
     if (initial_week > ending_week):
         initial_week = 1
 
